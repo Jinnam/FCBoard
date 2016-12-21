@@ -16,16 +16,18 @@ import service.BoardDao;
 @WebServlet("*.do")
 public class FrontControllerServlet extends HttpServlet {
 	BoardDao boardDao;
+	
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("euc-kr");
+		String view = "";
 		String path = request.getRequestURI();
 		System.out.println(path + ": path");
 		if("/FCBoard/board/boardAdd.do".equals(path)){
 			System.out.println("add");
 			if(request.getMethod().equals("GET")){
-				request.getRequestDispatcher("/board/boardAdd.jsp").forward(request, response);
+				view = "/board/boardAdd.jsp";
 			}else if(request.getMethod().equals("POST")){
-				request.setCharacterEncoding("euc-kr");
 		        String boardPw = request.getParameter("boardPw");
 		        System.out.println("param boardPw:"+boardPw);
 		        String boardTitle = request.getParameter("boardTitle");
@@ -44,7 +46,7 @@ public class FrontControllerServlet extends HttpServlet {
 		        BoardDao boardDao = new BoardDao();
 		        int rowCount = boardDao.insertBoard(board);
 		        // rowCout媛� 1�씠硫� �엯�젰�꽦怨� 
-		        response.sendRedirect(request.getContextPath()+"/board/boardList");
+		        view = "redirect : "+request.getContextPath()+"/board/boardList";
 			}
 		}else if("/FCBoard/board/boardList.do".equals(path)){
 			System.out.println("list");
@@ -67,24 +69,23 @@ public class FrontControllerServlet extends HttpServlet {
 		        request.setAttribute("pagePerRow", pagePerRow);
 		        request.setAttribute("lastPage", lastPage);
 		        request.setAttribute("list", list);
-		        request.getRequestDispatcher("/board/boardList.jsp").forward(request, response);
+		        view = "/board/boardList.jsp";
 		}else if("/FCBoard/board/boardModify.do".equals(path)){
 			System.out.println("modify");
 			if(request.getMethod().equals("GET")){
 				 if(request.getParameter("boardNo") == null) {
-			            response.sendRedirect(request.getContextPath()+"/board/boardList");
+					 view = "redirect : "+request.getContextPath()+"/board/boardList";
 			        } else {
 			            int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 			            System.out.println("boardModify param boardNo:"+boardNo);
 			            boardDao = new BoardDao();
 			            Board board = boardDao.selectBoardByKey(boardNo);
 			            request.setAttribute("board", board);
-			            request.getRequestDispatcher("/board/boardModify.jsp").forward(request, response);
+			            view = "/board/boardModify.jsp";
 			        }
 			}else if(request.getMethod().equals("POST")){
-				request.setCharacterEncoding("euc-kr");
 		        if(request.getParameter("boardNo") == null || request.getParameter("boardPw") == null) {
-		            response.sendRedirect(request.getContextPath()+"/board/boardList.jsp");
+		        	view = "redirect : "+request.getContextPath()+"/board/boardList.jsp";
 		        } else {
 		            int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 		            System.out.println("boardModifyAction param boardNo :"+boardNo);
@@ -104,9 +105,9 @@ public class FrontControllerServlet extends HttpServlet {
 		            boardDao = new BoardDao();
 		            int rowCount = boardDao.updateBoard(board);
 		            if(rowCount > 0){
-		                response.sendRedirect(request.getContextPath()+"/board/boardView?boardNo="+boardNo);
+		            	view = "redirect : "+request.getContextPath()+"/board/boardView?boardNo="+boardNo;
 		            } else {
-		                response.sendRedirect(request.getContextPath()+"/board/boardModify?boardNo="+boardNo);
+		            	view = "redirect : "+request.getContextPath()+"/board/boardModify?boardNo="+boardNo;
 		            }
 		        }
 			}
@@ -114,13 +115,13 @@ public class FrontControllerServlet extends HttpServlet {
 			System.out.println("remove");
 			if(request.getMethod().equals("GET")){
 				if(request.getParameter("boardNo") == null) {
-		            response.sendRedirect(request.getContextPath()+"/board/boardList.jsp");
+					view = "redirect : "+request.getContextPath()+"/board/boardList.jsp";
 		        } else {
-		            request.getRequestDispatcher("/board/boardRemove.jsp").forward(request, response);
+		        	view = "/board/boardRemove.jsp";
 		        }
 			}else if(request.getMethod().equals("POST")){
 				if(request.getParameter("boardNo") == null || request.getParameter("boardPw") == null) {
-		            response.sendRedirect(request.getContextPath()+"/board/boardList.jsp");
+					view = "redirect : "+request.getContextPath()+"/board/boardList.jsp";
 		        } else {
 		            int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 		            System.out.println("boardNo :"+boardNo);
@@ -133,24 +134,28 @@ public class FrontControllerServlet extends HttpServlet {
 		            boardDao = new BoardDao();
 		            
 		            if(boardDao.deleteBoard(board)==1){
-		                response.sendRedirect(request.getContextPath()+"/board/boardList");
+		            	view = "redirect : "+request.getContextPath()+"/board/boardList";
 		            } else {
-		                response.sendRedirect(request.getContextPath()+"/board/boardRemove?boardNo="+boardNo);
+		            	view = "redirect : "+request.getContextPath()+"/board/boardRemove?boardNo="+boardNo;
 		            }
 		        }
 			}
 		}else if("/FCBoard/board/boardView.do".equals(path)){
 			System.out.println("view");
 			if(request.getParameter("boardNo") == null) {
-	            response.sendRedirect(request.getContextPath()+"/board/boardList");
+				view = "redirect : "+request.getContextPath()+"/board/boardList";
 	        } else {
 	            int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 	            BoardDao boardDao = new BoardDao();
 	            Board board = boardDao.selectBoardByKey(boardNo);
 	            request.setAttribute("board", board);
-	            request.getRequestDispatcher("/board/boardView.jsp").forward(request, response);
+	            view = "/board/boardView.jsp";
 	        }
 		}
+		if(view.startsWith("redirect : ")){
+			response.sendRedirect(view);
+		}else
+			request.getRequestDispatcher(view).forward(request, response);
 	}
 	
 	/*protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
