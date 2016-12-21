@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>BOARD ADD</h1>
-<form action="<c:url value='/board/boardAdd'/>" method="post">
+<form action="<c:url value='/board/boardAdd.do'/>" method="post">
     <div>boardPw : </div>
     <div><input name="boardPw" id="boardPw" type="password"/></div>
     <div>boardTitle : </div>

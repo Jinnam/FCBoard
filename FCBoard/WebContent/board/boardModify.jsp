@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>BOARD MODIFY</h1>    
-    <form action="<c:url value='/board/boardModify'/>" method="post">
+    <form action="<c:url value='/board/boardModify.do'/>" method="post">
         <div>boardNo</div>
         <div><input name="boardNo" value="${board.boardNo}" type="text" readonly="readonly"/></div>
         <div>비밀번호확인: </div>

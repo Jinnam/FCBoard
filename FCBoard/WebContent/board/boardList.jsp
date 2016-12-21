@@ -19,7 +19,7 @@
         <tbody>
             <c:forEach var="b" items="${list}">
                 <tr>
-                    <td><a href="<%=request.getContextPath()%>/board/boardView?boardNo=${b.boardNo}">${b.boardTitle}</a></td>
+                    <td><a href="<%=request.getContextPath()%>/board/boardView.do?boardNo=${b.boardNo}">${b.boardTitle}</a></td>
                     <td>${b.boardUser}</td>
                     <td>${b.boardDate}</td>
                 </tr>
@@ -28,14 +28,14 @@
     </table>
  
     <div>
-        <a href="<%=request.getContextPath()%>/board/BoardAdd">게시글 입력</a>
+        <a href="<%=request.getContextPath()%>/board/boardAdd.do">게시글 입력</a>
     </div>
     <div>
         <c:if test="${currentPage>1}">
-            <a href="<c:url value='/board/boardList?currentPage=${currentPage-1}'/>">이전</a>
+            <a href="<c:url value='/board/boardList.do?currentPage=${currentPage-1}'/>">이전</a>
         </c:if>
         <c:if test="${currentPage < lastPage}"> 
-            <a href="<c:url value='/board/boardList?currentPage=${currentPage+1}'/>">다음</a>
+            <a href="<c:url value='/board/boardList.do?currentPage=${currentPage+1}'/>">다음</a>
         </c:if>
  
     </div>

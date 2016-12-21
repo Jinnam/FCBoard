@@ -19,8 +19,8 @@
     <div>board_date :</div>
     <div>${board.boardDate}</div>
     <div>
-        <a href="<c:url value='/board/boardModify?boardNo=${board.boardNo}'/>">수정</a>
-        <a href="<c:url value='/board/boardRemove?boardNo=${board.boardNo}'/>">삭제</a>
+        <a href="<c:url value='/board/boardModify.do?boardNo=${board.boardNo}'/>">수정</a>
+        <a href="<c:url value='/board/boardRemove.do?boardNo=${board.boardNo}'/>">삭제</a>
     </div>
 </body>
 </html>
