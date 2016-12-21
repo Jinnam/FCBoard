@@ -11,11 +11,11 @@ import java.util.List;
  
 public class BoardDao {
     private final String driverClassName = "com.mysql.jdbc.Driver";
-    private final String url = "jdbc:mysql://127.0.0.1:3306/injava?useUnicode=true&characterEncoding=euckr";
+    private final String url = "jdbc:mysql://127.0.0.1:3306/dev22?useUnicode=true&characterEncoding=euckr";
     private final String username = "root";
     private final String password = "java0000";
     
-    // 테이블 : board , 기능 : 데이터 수정 
+    // �뀒�씠釉� : board , 湲곕뒫 : �뜲�씠�꽣 �닔�젙 
     public int updateBoard(Board board) {
         int rowCount = 0;
         Connection connection = null;
@@ -37,7 +37,7 @@ public class BoardDao {
         return rowCount;
     }
     
-    // 테이블 : board , 기능 : 데이터 삭제 
+    // �뀒�씠釉� : board , 湲곕뒫 : �뜲�씠�꽣 �궘�젣 
     public int deleteBoard(Board board) {
         int rowCount = 0;
         Connection connection = null;
@@ -57,7 +57,7 @@ public class BoardDao {
         return rowCount;
     }
     
-    // 테이블 : board , 기능 : 하나의 데이터 가져오기
+    // �뀒�씠釉� : board , 湲곕뒫 : �븯�굹�쓽 �뜲�씠�꽣 媛��졇�삤湲�
     public Board selectBoardByKey(int boardNo) {
         Board board = null;
         Connection connection = null;
@@ -85,7 +85,7 @@ public class BoardDao {
         return board;
     }
     
-    // 테이블 : board , 기능 : 한 페이지의 데이터 가져오기 
+    // �뀒�씠釉� : board , 湲곕뒫 : �븳 �럹�씠吏��쓽 �뜲�씠�꽣 媛��졇�삤湲� 
     public List<Board> selectBoardListPerPage(int beginRow, int pagePerRow) {
         List<Board> list = new ArrayList<Board>();
         Connection connection = null;
@@ -114,7 +114,7 @@ public class BoardDao {
         return list;
     }
     
-    // 테이블 : board , 기능 : 전체 로우 카운터 가져오기
+    // �뀒�씠釉� : board , 湲곕뒫 : �쟾泥� 濡쒖슦 移댁슫�꽣 媛��졇�삤湲�
     public int selectTotalBoardCount() {
         int rowCount = 0;
         Connection connection = null;
@@ -136,7 +136,7 @@ public class BoardDao {
         return rowCount;
     }
     
-    // 테이블 : board , 기능 : 데이터 입력하기
+    // �뀒�씠釉� : board , 湲곕뒫 : �뜲�씠�꽣 �엯�젰�븯湲�
     public int insertBoard(Board board) {
         int rowCount = 0;
         Connection connection = null;
